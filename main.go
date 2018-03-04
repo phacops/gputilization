@@ -12,13 +12,13 @@ import (
 func main() {
 	var out bytes.Buffer
 
-	cmd := exec.Command("nvidia-smi", "--query-gpu=utilization.gpu", "--format=csv,noheader,nounits")
-	cmd.Stdout = &out
-
 	scanner := bufio.NewScanner(&out)
 
 	go func() {
 		for range time.Tick(time.Second) {
+			cmd := exec.Command("nvidia-smi", "--query-gpu=utilization.gpu", "--format=csv,noheader,nounits")
+			cmd.Stdout = &out
+
 			err := cmd.Run()
 
 			if err != nil {
