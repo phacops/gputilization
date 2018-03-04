@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"os/exec"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -16,8 +17,23 @@ func main() {
 			panic(err)
 		}
 
-		fmt.Println(strings.Split(out, string('\n')))
+		use := average(out)
+
+		fmt.Println(use)
 	}
+}
+
+func average(s string) float64 {
+	v := strings.Split(s, "\n")
+
+	var o int
+
+	for _, n := range v {
+		i, _ := strconv.Atoi(n)
+		o += i
+	}
+
+	return float64(o / len(v))
 }
 
 func utilization() (string, error) {
@@ -32,5 +48,5 @@ func utilization() (string, error) {
 		return "", err
 	}
 
-	return out.String(), nil
+	return strings.TrimSpace(out.String()), nil
 }
