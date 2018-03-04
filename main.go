@@ -27,9 +27,9 @@ func main() {
 		}
 	}()
 
-	for scanner.Scan() {
-		fmt.Println(scanner.Text())
+	for {
+		for scanner.Scan() {
+			fmt.Println(scanner.Text())
+		}
 	}
-
-	fmt.Printf("in all caps: %q\n", out.String())
 }
