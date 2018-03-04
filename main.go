@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"log"
@@ -14,6 +15,8 @@ func main() {
 	cmd := exec.Command("nvidia-smi", "--query-gpu=utilization.gpu", "--format=csv,noheader,nounits")
 	cmd.Stdout = &out
 
+	scanner := bufio.NewScanner(&out)
+
 	go func() {
 		for range time.Tick(time.Second) {
 			err := cmd.Run()
@@ -24,9 +27,8 @@ func main() {
 		}
 	}()
 
-	for {
-		n, _ := out.ReadString('\n')
-		fmt.Println(n)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
 	}
 
 	fmt.Printf("in all caps: %q\n", out.String())
