@@ -3,11 +3,24 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"os/exec"
+	"strings"
+	"time"
 )
 
 func main() {
+	for range time.Tick(time.Second) {
+		out, err := utilization()
+
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println(strings.Split(out, string('\n')))
+	}
+}
+
+func utilization() (string, error) {
 	var out bytes.Buffer
 
 	cmd := exec.Command("nvidia-smi", "--query-gpu=utilization.gpu", "--format=csv,noheader,nounits")
@@ -16,8 +29,8 @@ func main() {
 	err := cmd.Run()
 
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	fmt.Println(out.String())
+	return out.String(), nil
 }
