@@ -48,12 +48,29 @@ func main() {
 	lc.LineColor = termui.ColorCyan | termui.AttrBold
 	lc.Height = termui.TermHeight() - p.Height - g.Height
 
+	bcLabels := make([]string, 10)
+
+	for i := range bcLabels {
+		bcLabels[i] = strconv.Itoa(i)
+	}
+
+	var bcData []int
+
+	bc := termui.NewBarChart()
+	bc.BorderLabel = "Percentiles"
+	bc.Data = bcData
+	bc.DataLabels = bcLabels
+	bc.TextColor = termui.ColorGreen
+	bc.BarColor = termui.ColorRed
+	bc.NumColor = termui.ColorYellow
+
 	termui.Body.AddRows(
 		termui.NewRow(
 			termui.NewCol(12, 0, p),
 		),
 		termui.NewRow(
-			termui.NewCol(12, 0, g),
+			termui.NewCol(8, 0, g),
+			termui.NewCol(4, 8, bc),
 		),
 		termui.NewRow(
 			termui.NewCol(12, 0, lc),
@@ -78,7 +95,9 @@ func main() {
 			panic(err)
 		}
 
-		over = append(over, averageFromString(out))
+		avg := averageFromString(out)
+		bcData = append(bcData, int(avg))
+		over = append(over, avg)
 
 		var from int
 
