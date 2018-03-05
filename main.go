@@ -79,6 +79,7 @@ func main() {
 		}
 
 		g.Percent = int(averageFromFloats(over[from:]))
+		lc.Data = func() []float64 { return over }()
 
 		termui.Body.Align()
 		termui.Render(termui.Body)
