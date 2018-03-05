@@ -40,12 +40,15 @@ func main() {
 
 	termui.Body.AddRows(
 		termui.NewRow(
-			termui.NewCol(0, 0, p),
+			termui.NewCol(12, 0, p),
 		),
 		termui.NewRow(
-			termui.NewCol(0, 0, g),
+			termui.NewCol(12, 0, g),
 		),
 	)
+
+	termui.Body.Align()
+	termui.Render(termui.Body)
 
 	var over []float64
 
