@@ -89,7 +89,7 @@ func main() {
 		}
 
 		lc.Height = termui.TermHeight() - p.Height - g.Height
-		bc.BarWidth = (termui.TermWidth() / 12) * 4 / 10
+		bc.BarWidth = ((termui.TermWidth() / 3) - 9) / 10
 		out, err := utilization()
 
 		if err != nil {
