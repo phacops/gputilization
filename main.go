@@ -11,6 +11,7 @@ import (
 
 const (
 	averageOverInSeconds = 5
+	maxDataPoints        = 120
 )
 
 func main() {
@@ -63,6 +64,12 @@ func main() {
 	termui.Render(termui.Body)
 
 	termui.Handle("/timer/1s", func(e termui.Event) {
+		count := len(over)
+
+		if count == maxDataPoints {
+			over = over[1:]
+		}
+
 		out, err := utilization()
 
 		if err != nil {
@@ -70,7 +77,6 @@ func main() {
 		}
 
 		over = append(over, averageFromString(out))
-		count := len(over)
 
 		var from int
 
@@ -79,7 +85,9 @@ func main() {
 		}
 
 		g.Percent = int(averageFromFloats(over[from:]))
-		lc.Data = func() []float64 { return over }()
+		lc.Data = func() []float64 {
+			return over
+		}()
 
 		termui.Body.Align()
 		termui.Render(termui.Body)
