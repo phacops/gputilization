@@ -45,9 +45,7 @@ func main() {
 	lc.Data = func() []float64 { return over }()
 	lc.AxesColor = termui.ColorWhite
 	lc.LineColor = termui.ColorCyan | termui.AttrBold
-	lc.Height = 128
-	lc.X = 300
-	lc.Y = 100
+	lc.Height = 100
 
 	termui.Body.AddRows(
 		termui.NewRow(
