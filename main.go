@@ -47,9 +47,6 @@ func main() {
 		),
 	)
 
-	termui.Body.Align()
-	termui.Render(termui.Body)
-
 	var over []float64
 
 	termui.Handle("/timer/1s", func(e termui.Event) {
@@ -63,6 +60,7 @@ func main() {
 		over = append(over, averageFromString(out))
 		g.Percent = int(averageFromFloats(over))
 
+		termui.Body.Align()
 		termui.Render(termui.Body)
 
 		if c.Count%averageOverInSeconds == 0 {
