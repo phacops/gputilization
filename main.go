@@ -10,6 +10,9 @@ import (
 )
 
 func main() {
+	var i int
+	var over [5]float64
+
 	for range time.Tick(time.Second) {
 		out, err := utilization()
 
@@ -17,13 +20,27 @@ func main() {
 			panic(err)
 		}
 
-		use := average(out)
+		over[i] = averageFromString(out)
 
-		fmt.Println(use)
+		if i == 4 {
+			i = 0
+		}
+
+		fmt.Println("utilization:", averageFromFloats(over))
 	}
 }
 
-func average(s string) float64 {
+func averageFromFloats(f [5]float64) float64 {
+	var o float64
+
+	for _, v := range f {
+		o += v
+	}
+
+	return o / float64(len(f))
+}
+
+func averageFromString(s string) float64 {
 	v := strings.Split(s, "\n")
 
 	var o int
