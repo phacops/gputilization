@@ -62,7 +62,6 @@ func main() {
 	bc.Data = bcData
 	bc.DataLabels = bcLabels
 	bc.TextColor = termui.ColorGreen
-	bc.Float = termui.AlignCenter
 	bc.BarColor = termui.ColorRed
 	bc.NumColor = termui.ColorYellow
 
