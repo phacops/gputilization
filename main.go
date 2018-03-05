@@ -54,12 +54,10 @@ func main() {
 		bcLabels[i] = strconv.Itoa(i)
 	}
 
-	var bcData []int
-
 	bc := termui.NewBarChart()
 	bc.BorderLabel = "Percentiles"
 	bc.Height = 10
-	bc.Data = bcData
+	bc.Data = [10]int{}
 	bc.DataLabels = bcLabels
 	bc.TextColor = termui.ColorGreen
 	bc.BarColor = termui.ColorRed
@@ -97,7 +95,8 @@ func main() {
 		}
 
 		avg := averageFromString(out)
-		bc.Data = append(bc.Data, int(avg))
+		pi := int(avg) % len(bc.Data)
+		bc.Data[pi] = (bcData[pi] + int(avg)) / 2
 		over = append(over, avg)
 
 		var from int
