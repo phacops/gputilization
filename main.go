@@ -41,12 +41,19 @@ func main() {
 	g.LabelAlign = termui.AlignRight
 	g.Label = "{{percent}}%"
 
+	labels := make([]string, 100)
+
+	for i := range labels {
+		labels[i] = strconv.Itoa(i + 1)
+	}
+
 	lc := termui.NewLineChart()
 	lc.Mode = "braille"
+	lc.DataLabels = labels
 	lc.Data = func() []float64 { return over }()
 	lc.AxesColor = termui.ColorWhite
 	lc.LineColor = termui.ColorCyan | termui.AttrBold
-	lc.Height = 50
+	lc.Height = termui.TermHeight() - p.Height - g.Height
 
 	termui.Body.AddRows(
 		termui.NewRow(
@@ -66,9 +73,11 @@ func main() {
 	termui.Handle("/timer/1s", func(e termui.Event) {
 		count := len(over)
 
-		if count == termui.Body.Width {
+		if count == termui.TermWidth()-6 {
 			over = over[1:]
 		}
+
+		lc.Height = termui.TermHeight() - p.Height - g.Height
 
 		out, err := utilization()
 
