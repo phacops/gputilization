@@ -41,6 +41,17 @@ func main() {
 	g.LabelAlign = termui.AlignRight
 	g.Label = "{{percent}}%"
 
+	termui.Body.AddRows(
+		termui.NewRow(
+			termui.NewCol(0, 0, p),
+		),
+		termui.NewRow(
+			termui.NewCol(0, 0, g),
+		),
+	)
+
+	termui.Body.Align()
+
 	var over []float64
 
 	termui.Handle("/timer/1s", func(e termui.Event) {
@@ -54,7 +65,7 @@ func main() {
 		over = append(over, averageFromString(out))
 		g.Percent = int(averageFromFloats(over))
 
-		termui.Render(p, g)
+		termui.Render(termui.Body)
 
 		if c.Count%averageOverInSeconds == 0 {
 			over = []float64{}
