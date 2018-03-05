@@ -22,15 +22,22 @@ func main() {
 
 	defer termui.Close()
 
+	p := termui.NewPar("Press q to quit")
+	p.Height = 3
+	p.Width = 200
+	p.TextFgColor = termui.ColorWhite
+	p.BorderLabel = "Instructions"
+	p.BorderFg = termui.ColorWhite
+
 	g := termui.NewGauge()
-	g.Width = 100
-	g.Height = 20
-	g.Y = 6
+	g.Width = 200
+	g.Height = 10
+	g.Y = 4
 	g.BorderLabel = "GPU utilization"
-	g.PercentColor = termui.ColorYellow
-	g.BarColor = termui.ColorGreen
+	g.PercentColor = termui.ColorWhite
+	g.BarColor = termui.ColorRed
 	g.BorderFg = termui.ColorWhite
-	g.BorderLabelFg = termui.ColorMagenta
+	g.BorderLabelFg = termui.ColorCyan
 
 	var over []float64
 
@@ -45,7 +52,7 @@ func main() {
 		over = append(over, averageFromString(out))
 		g.Percent = int(averageFromFloats(over))
 
-		termui.Render(g)
+		termui.Render(p, g)
 
 		if c.Count%averageOverInSeconds == 0 {
 			over = []float64{}
