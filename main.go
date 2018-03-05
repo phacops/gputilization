@@ -66,7 +66,7 @@ func main() {
 	termui.Handle("/timer/1s", func(e termui.Event) {
 		count := len(over)
 
-		if count == maxDataPoints {
+		if count == termui.Body.Width {
 			over = over[1:]
 		}
 
