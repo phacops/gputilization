@@ -96,7 +96,7 @@ func main() {
 		}
 
 		avg := averageFromString(out)
-		bcData = append(bcData, int(avg))
+		bc.Data = append(bc.Data, int(avg))
 		over = append(over, avg)
 
 		var from int
