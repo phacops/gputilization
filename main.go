@@ -58,6 +58,7 @@ func main() {
 
 	bc := termui.NewBarChart()
 	bc.BorderLabel = "Percentiles"
+	bc.Height = 10
 	bc.Data = bcData
 	bc.DataLabels = bcLabels
 	bc.TextColor = termui.ColorGreen
