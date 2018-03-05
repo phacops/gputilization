@@ -42,7 +42,7 @@ func main() {
 	g.Label = "{{percent}}%"
 
 	lc := termui.NewLineChart()
-	lc.Mode = "braille"
+	lc.Mode = "dot"
 	lc.Data = func() []float64 { return over }()
 	lc.AxesColor = termui.ColorWhite
 	lc.LineColor = termui.ColorCyan | termui.AttrBold
