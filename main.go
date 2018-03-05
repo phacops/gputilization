@@ -51,6 +51,7 @@ func main() {
 	)
 
 	termui.Body.Align()
+	termui.Render(termui.Body)
 
 	var over []float64
 
@@ -76,10 +77,14 @@ func main() {
 		termui.StopLoop()
 	})
 
-	termui.Loop()
-}
+	termui.Handle("/sys/wnd/resize", func(e termui.Event) {
+		termui.Body.Width = termui.TermWidth()
+		termui.Body.Align()
+		termui.Clear()
+		termui.Render(termui.Body)
+	})
 
-func averageOver(g *termui.Gauge) {
+	termui.Loop()
 }
 
 func averageFromFloats(f []float64) float64 {
