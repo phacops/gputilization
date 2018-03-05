@@ -24,21 +24,22 @@ func main() {
 
 	p := termui.NewPar("Press q to quit")
 	p.Height = 3
-	p.Width = 256
+	p.Width = 220
 	p.TextFgColor = termui.ColorWhite
 	p.BorderLabel = "Instructions"
 	p.BorderFg = termui.ColorWhite
 
 	g := termui.NewGauge()
-	g.Width = 256
+	g.Width = 220
 	g.Height = 10
 	g.Y = 3
 	g.BorderLabel = "GPU utilization"
-	g.PercentColor = termui.ColorBlue & termui.AttrBold
+	g.PercentColor = termui.ColorBlue | termui.AttrBold
 	g.BarColor = termui.ColorYellow
 	g.BorderFg = termui.ColorWhite
 	g.BorderLabelFg = termui.ColorCyan
 	g.LabelAlign = termui.AlignRight
+	g.Label = "{{percent}}"
 
 	var over []float64
 
