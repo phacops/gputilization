@@ -24,13 +24,11 @@ func main() {
 
 	p := termui.NewPar("Press q to quit")
 	p.Height = 3
-	p.Width = 240
 	p.TextFgColor = termui.ColorWhite
 	p.BorderLabel = "Instructions"
 	p.BorderFg = termui.ColorWhite
 
 	g := termui.NewGauge()
-	g.Width = 240
 	g.Height = 10
 	g.Y = 3
 	g.BorderLabel = "GPU utilization"
