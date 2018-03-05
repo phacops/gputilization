@@ -9,29 +9,31 @@ import (
 	"time"
 )
 
-func main() {
-	var i int
-	var over [5]float64
+const (
+	averageOver = 5
+)
 
-	for range time.Tick(time.Second) {
+func main() {
+	var over []float64
+
+	for i := range time.Tick(time.Second) {
 		out, err := utilization()
 
 		if err != nil {
 			panic(err)
 		}
 
-		over[i] = averageFromString(out)
-		i += 1
+		over = append(over, averageFromString(out))
 
-		if i == 5 {
-			i = 0
+		if i.Second()%averageOver == 0 {
+			over = []float64{}
 		}
 
 		fmt.Println("utilization:", averageFromFloats(over))
 	}
 }
 
-func averageFromFloats(f [5]float64) float64 {
+func averageFromFloats(f []float64) float64 {
 	var o float64
 
 	for _, v := range f {
