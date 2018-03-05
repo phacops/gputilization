@@ -45,10 +45,11 @@ func main() {
 		over = append(over, averageFromString(out))
 		g.Percent = int(averageFromFloats(over))
 
+		termui.Render(g)
+
 		if c.Count%averageOverInSeconds == 0 {
 			over = []float64{}
 		}
-
 	})
 
 	termui.Handle("/sys/kbd/q", func(termui.Event) {
