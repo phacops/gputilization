@@ -22,6 +22,8 @@ func main() {
 
 	defer termui.Close()
 
+	var over []float64
+
 	p := termui.NewPar("Press q to quit")
 	p.Height = 3
 	p.TextFgColor = termui.ColorWhite
@@ -38,6 +40,12 @@ func main() {
 	g.LabelAlign = termui.AlignRight
 	g.Label = "{{percent}}%"
 
+	lc := termui.NewLineChart()
+	lc.Mode = "dot"
+	lc.Data = func() []float64 { return over }()
+	lc.AxesColor = termui.ColorWhite
+	lc.LineColor = termui.ColorCyan | termui.AttrBold
+
 	termui.Body.AddRows(
 		termui.NewRow(
 			termui.NewCol(12, 0, p),
@@ -45,15 +53,15 @@ func main() {
 		termui.NewRow(
 			termui.NewCol(12, 0, g),
 		),
+		termui.NewRow(
+			termui.NewCol(12, 0, lc),
+		),
 	)
 
 	termui.Body.Align()
 	termui.Render(termui.Body)
 
-	var over []float64
-
 	termui.Handle("/timer/1s", func(e termui.Event) {
-		c := e.Data.(termui.EvtTimer)
 		out, err := utilization()
 
 		if err != nil {
@@ -61,14 +69,11 @@ func main() {
 		}
 
 		over = append(over, averageFromString(out))
-		g.Percent = int(averageFromFloats(over))
+		count := len(over)
+		g.Percent = int(averageFromFloats(over[count-averageOverInSeconds : count]))
 
 		termui.Body.Align()
 		termui.Render(termui.Body)
-
-		if c.Count%averageOverInSeconds == 0 {
-			over = []float64{}
-		}
 	})
 
 	termui.Handle("/sys/kbd/q", func(termui.Event) {
