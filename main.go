@@ -56,7 +56,7 @@ func main() {
 
 	bcData := make([]int, 10)
 	bc := termui.NewBarChart()
-	bc.BorderLabel = "Percentiles"
+	bc.BorderLabel = "Distribution"
 	bc.Height = 10
 	bc.Data = bcData
 	bc.DataLabels = bcLabels
