@@ -43,14 +43,20 @@ func main() {
 
 		average := averageFromFloats(over)
 		t := strconv.FormatFloat(average, 'g', 2, 64)
-		p := len(utilizationText) + 1
 
-		for _, c := range t {
-			termbox.SetCell(0, p, rune(c), termbox.ColorWhite, termbox.ColorBlack)
+		var p int
+
+		for _, c := range utilizationText {
+			termbox.SetCell(p, 0, rune(c), termbox.ColorWhite, termbox.ColorBlack)
 			p += 1
 		}
 
-		termbox.SetCell(0, p, '%', termbox.ColorWhite, termbox.ColorBlack)
+		for _, c := range t {
+			termbox.SetCell(p, 0, rune(c), termbox.ColorWhite, termbox.ColorBlack)
+			p += 1
+		}
+
+		termbox.SetCell(p, 0, '%', termbox.ColorWhite, termbox.ColorBlack)
 
 		err = termbox.Flush()
 
