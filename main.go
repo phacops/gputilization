@@ -7,24 +7,41 @@ import (
 	"strings"
 	"time"
 
-	termbox "github.com/nsf/termbox-go"
+	"github.com/gizak/termui"
 )
 
 const (
-	averageOver     = 5
-	utilizationText = "Utilization:"
-	percent         = "%"
+	averageOver = 5
 )
 
 func main() {
-	err := termbox.Init()
+	err := termui.Init()
 
 	if err != nil {
 		panic(err)
 	}
 
-	defer termbox.Close()
+	defer termui.Close()
 
+	g := termui.NewGauge()
+	g.Width = 50
+	g.Height = 5
+	g.Y = 6
+	g.BorderLabel = "GPU utilization"
+	g.PercentColor = termui.ColorYellow
+	g.BarColor = termui.ColorGreen
+	g.BorderFg = termui.ColorWhite
+	g.BorderLabelFg = termui.ColorMagenta
+
+	termui.Handle("/sys/kbd/q", func(termui.Event) {
+		termui.StopLoop()
+	})
+
+	go averageLoop(g)
+	termui.Loop()
+}
+
+func averageLoop(g *termui.Gauge) {
 	var over []float64
 
 	for i := range time.Tick(time.Second) {
@@ -35,34 +52,7 @@ func main() {
 		}
 
 		over = append(over, averageFromString(out))
-		err = termbox.Clear(termbox.ColorWhite, termbox.ColorBlack)
-
-		if err != nil {
-			panic(err)
-		}
-
-		average := averageFromFloats(over)
-		t := strconv.FormatFloat(average, 'g', 2, 64)
-
-		var p int
-
-		for _, c := range utilizationText {
-			termbox.SetCell(p, 0, rune(c), termbox.ColorWhite, termbox.ColorBlack)
-			p += 1
-		}
-
-		for _, c := range t {
-			termbox.SetCell(p, 0, rune(c), termbox.ColorWhite, termbox.ColorBlack)
-			p += 1
-		}
-
-		termbox.SetCell(p, 0, '%', termbox.ColorWhite, termbox.ColorBlack)
-
-		err = termbox.Flush()
-
-		if err != nil {
-			panic(err)
-		}
+		g.Percent = int(averageFromFloats(over))
 
 		if i.Second()%averageOver == 0 {
 			over = []float64{}
