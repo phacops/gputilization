@@ -70,7 +70,14 @@ func main() {
 
 		over = append(over, averageFromString(out))
 		count := len(over)
-		g.Percent = int(averageFromFloats(over[count-averageOverInSeconds : count]))
+
+		var from int
+
+		if count >= averageOverInSeconds {
+			from = count - averageOverInSeconds
+		}
+
+		g.Percent = int(averageFromFloats(over[from:]))
 
 		termui.Body.Align()
 		termui.Render(termui.Body)
