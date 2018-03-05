@@ -51,7 +51,7 @@ func main() {
 	bcLabels := make([]string, 10)
 
 	for i := range bcLabels {
-		bcLabels[i] = strconv.Itoa(i)
+		bcLabels[i] = "d" + strconv.Itoa((i+1)*10)
 	}
 
 	bcData := make([]int, 10)
@@ -96,7 +96,7 @@ func main() {
 		}
 
 		avg := averageFromString(out)
-		pi := int(avg) % len(bc.Data)
+		pi := (int(avg) / len(bc.Data)) - 1
 		bc.Data[pi] += 1
 		over = append(over, avg)
 
