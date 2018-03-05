@@ -96,8 +96,12 @@ func main() {
 		}
 
 		avg := averageFromString(out)
-		pi := int(avg) / len(bc.Data)
-		bc.Data[pi] += 1
+
+		if avg != 0 {
+			pi := int(avg) / len(bc.Data)
+			bc.Data[pi] += 1
+		}
+
 		over = append(over, avg)
 
 		var from int
