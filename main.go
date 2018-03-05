@@ -71,7 +71,7 @@ func main() {
 		),
 		termui.NewRow(
 			termui.NewCol(8, 0, g),
-			termui.NewCol(4, 8, bc),
+			termui.NewCol(4, 0, bc),
 		),
 		termui.NewRow(
 			termui.NewCol(12, 0, lc),
