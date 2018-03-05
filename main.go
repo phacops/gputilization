@@ -58,6 +58,7 @@ func main() {
 	bc := termui.NewBarChart()
 	bc.BorderLabel = "Distribution"
 	bc.Height = 10
+	bc.Width = termui.TermWidth() - g.Width
 	bc.Data = bcData
 	bc.DataLabels = bcLabels
 	bc.TextColor = termui.ColorGreen
@@ -88,6 +89,7 @@ func main() {
 		}
 
 		lc.Height = termui.TermHeight() - p.Height - g.Height
+		bc.Width = termui.TermWidth() - g.Width
 
 		out, err := utilization()
 
@@ -96,7 +98,7 @@ func main() {
 		}
 
 		avg := averageFromString(out)
-		pi := (int(avg) / len(bc.Data)) - 1
+		pi := int(avg) / len(bc.Data)
 		bc.Data[pi] += 1
 		over = append(over, avg)
 
