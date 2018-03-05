@@ -58,7 +58,7 @@ func main() {
 	bc := termui.NewBarChart()
 	bc.BorderLabel = "Distribution"
 	bc.Height = 10
-	bc.Width = termui.TermWidth() - g.Width
+	bc.BarWidth = (termui.TermWidth() - g.Width) / 10
 	bc.Data = bcData
 	bc.DataLabels = bcLabels
 	bc.TextColor = termui.ColorGreen
