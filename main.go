@@ -21,8 +21,9 @@ func main() {
 		}
 
 		over[i] = averageFromString(out)
+		i += 1
 
-		if i == 4 {
+		if i == 5 {
 			i = 0
 		}
 
