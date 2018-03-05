@@ -54,10 +54,11 @@ func main() {
 		bcLabels[i] = strconv.Itoa(i)
 	}
 
+	bcData := make([]int, 10)
 	bc := termui.NewBarChart()
 	bc.BorderLabel = "Percentiles"
 	bc.Height = 10
-	bc.Data = [10]int{}
+	bc.Data = bcData
 	bc.DataLabels = bcLabels
 	bc.TextColor = termui.ColorGreen
 	bc.BarColor = termui.ColorRed
