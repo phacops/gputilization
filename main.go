@@ -48,6 +48,7 @@ func main() {
 	)
 
 	termui.Body.Align()
+	termui.Render(termui.Body)
 
 	var over []float64
 
@@ -62,7 +63,7 @@ func main() {
 		over = append(over, averageFromString(out))
 		g.Percent = int(averageFromFloats(over))
 
-		//termui.Render(termui.Body)
+		termui.Render(termui.Body)
 
 		if c.Count%averageOverInSeconds == 0 {
 			over = []float64{}
@@ -71,6 +72,13 @@ func main() {
 
 	termui.Handle("/sys/kbd/q", func(termui.Event) {
 		termui.StopLoop()
+	})
+
+	termui.Handle("/sys/wnd/resize", func(e termui.Event) {
+		termui.Body.Width = termui.TermWidth()
+		termui.Body.Align()
+		termui.Clear()
+		termui.Render(termui.Body)
 	})
 
 	termui.Loop()
