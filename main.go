@@ -5,13 +5,12 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/gizak/termui"
 )
 
 const (
-	averageOver = 5
+	averageOverInSeconds = 5
 )
 
 func main() {
@@ -24,7 +23,7 @@ func main() {
 	defer termui.Close()
 
 	g := termui.NewGauge()
-	g.Width = 50
+	g.Width = 0
 	g.Height = 5
 	g.Y = 6
 	g.BorderLabel = "GPU utilization"
@@ -33,18 +32,10 @@ func main() {
 	g.BorderFg = termui.ColorWhite
 	g.BorderLabelFg = termui.ColorMagenta
 
-	termui.Handle("/sys/kbd/q", func(termui.Event) {
-		termui.StopLoop()
-	})
-
-	go averageLoop(g)
-	termui.Loop()
-}
-
-func averageLoop(g *termui.Gauge) {
 	var over []float64
 
-	for i := range time.Tick(time.Second) {
+	termui.Handle("/timer/1s", func(e termui.Event) {
+		c := e.Data.(termui.EvtTimer)
 		out, err := utilization()
 
 		if err != nil {
@@ -54,10 +45,20 @@ func averageLoop(g *termui.Gauge) {
 		over = append(over, averageFromString(out))
 		g.Percent = int(averageFromFloats(over))
 
-		if i.Second()%averageOver == 0 {
+		if c.Count%averageOverInSeconds == 0 {
 			over = []float64{}
 		}
-	}
+
+	})
+
+	termui.Handle("/sys/kbd/q", func(termui.Event) {
+		termui.StopLoop()
+	})
+
+	termui.Loop()
+}
+
+func averageOver(g *termui.Gauge) {
 }
 
 func averageFromFloats(f []float64) float64 {
