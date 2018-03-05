@@ -23,8 +23,8 @@ func main() {
 	defer termui.Close()
 
 	g := termui.NewGauge()
-	g.Width = 0
-	g.Height = 5
+	g.Width = 100
+	g.Height = 20
 	g.Y = 6
 	g.BorderLabel = "GPU utilization"
 	g.PercentColor = termui.ColorYellow
